@@ -19,7 +19,7 @@ VALID_TGT=$DATA/dev.tgt
 BPE_OPS=32000
 GPUARG=0
 
-echo "data path is = ${TF}"/data/${L1}_${L2}""
+echo "data path is = $TRAIN_SRC and this is target \n $TRAIN_TGT"
 echo "Output dir = $OUT"
 [ -d $OUT ] || mkdir -p $OUT
 [ -d $OUT/data ] || mkdir -p $OUT/data
