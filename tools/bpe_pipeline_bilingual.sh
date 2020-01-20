@@ -19,6 +19,7 @@ VALID_TGT=$DATA/dev.tgt
 BPE_OPS=32000
 GPUARG=0
 
+echo "pwd is = $TF"
 echo "Output dir = $OUT"
 [ -d $OUT ] || mkdir -p $OUT
 [ -d $OUT/data ] || mkdir -p $OUT/data
