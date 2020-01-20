@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TF=$(pwd)
+TF=$(printf "%q\n" "$(pwd)")
 export PATH=$PATH:${TF}/bin
 
 NAME="run_wmt16_de_en"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TF=$(pwd)
+TF=$(printf "%q\n" "$(pwd)")
 export PATH=$TF/bin:$PATH
 
 BPE_OPS=32000

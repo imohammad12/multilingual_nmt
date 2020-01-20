@@ -6,7 +6,7 @@ beta1=$3
 beta2=$4
 eps=$5
 
-TF=$(pwd)
+TF=$(printf "%q\n" "$(pwd)")
 
 export PATH=$TF/bin:$PATH
 #======= EXPERIMENT SETUP ======

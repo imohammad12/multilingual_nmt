@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TF=$(pwd)
+TF=$(printf "%q\n" "$(pwd)")
 export PATH=$TF/bin:$PATH
 
 L1=$1
