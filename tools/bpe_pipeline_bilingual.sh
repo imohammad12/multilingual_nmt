@@ -8,7 +8,7 @@ L2=$2
 
 NAME="run_${L1}_${L2}"
 OUT="temp/$NAME"
-DATA=${TF}"/data/${L1}_${L2}"
+DATA="${TF}/data/${L1}_${L2}"
 TRAIN_SRC=$DATA/train.src
 TRAIN_TGT=$DATA/train.tgt
 TEST_SRC=$DATA/test.src
@@ -19,7 +19,7 @@ VALID_TGT=$DATA/dev.tgt
 BPE_OPS=32000
 GPUARG=0
 
-echo "pwd is = $TF"
+echo "data path is = ${TF}"/data/${L1}_${L2}""
 echo "Output dir = $OUT"
 [ -d $OUT ] || mkdir -p $OUT
 [ -d $OUT/data ] || mkdir -p $OUT/data
