@@ -12,10 +12,10 @@ OUT="temp/$NAME"
 DATA=${TF}/data/${L1}_${L2}
 TRAIN_SRC="$DATA/train.src"
 TRAIN_TGT="$DATA/train.tgt"
-TEST_SRC=$DATA/test.src
-TEST_TGT=$DATA/test.tgt
-VALID_SRC=$DATA/dev.src
-VALID_TGT=$DATA/dev.tgt
+TEST_SRC="$DATA/test.src"
+TEST_TGT="$DATA/test.tgt"
+VALID_SRC="$DATA/dev.src"
+VALID_TGT="$DATA/dev.tgt"
 
 BPE_OPS=32000
 GPUARG=0
@@ -33,13 +33,13 @@ echo "Learning BPE on source and target combined"
 cat "${TRAIN_SRC}" "${TRAIN_TGT}" | learn_bpe -s ${BPE_OPS} > $OUT/data/bpe-codes.${BPE_OPS}
 
 echo "Applying BPE on source"
-apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} < $TRAIN_SRC > $OUT/data/train.src
-apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} < $VALID_SRC > $OUT/data/valid.src
-apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} < $TEST_SRC > $OUT/data/test.src
+apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} < "$TRAIN_SRC" > $OUT/data/train.src
+apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} < "$VALID_SRC" > $OUT/data/valid.src
+apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} < "$TEST_SRC" > $OUT/data/test.src
 
 echo "Applying BPE on target"
-apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} <  $TRAIN_TGT > $OUT/data/train.tgt
-apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} <  $VALID_TGT > $OUT/data/valid.tgt
+apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} <  "$TRAIN_TGT" > $OUT/data/train.tgt
+apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} <  "$VALID_TGT" > $OUT/data/valid.tgt
 # We dont touch the test References, No BPE on them!
 cp $TEST_TGT $OUT/data/test.tgt
 
