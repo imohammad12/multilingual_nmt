@@ -44,18 +44,19 @@ echo "Applying BPE on target"
 #cp "$TEST_TGT" "$OUT/data/test.tgt"
 
 echo "Step 1b: Preprocess"
-python "${TF}/preprocess.py" -i "${OUT}/data" \
-      -s-train train.src \
-      -t-train train.tgt \
-      -s-valid valid.src \
-      -t-valid valid.tgt \
-      -s-test test.src \
-      -t-test test.tgt \
-      --save_data processed \
-      --max_seq_len 70
+#python "${TF}/preprocess.py" -i "${OUT}/data" \
+#      -s-train train.src \
+#      -t-train train.tgt \
+#      -s-valid valid.src \
+#      -t-valid valid.tgt \
+#      -s-test test.src \
+#      -t-test test.tgt \
+#      --save_data processed \
+#      --max_seq_len 70
 
 echo "Step 2: Train"
-CMD="python "$TF/train.py" -i "$OUT/data" --data processed \
+TF2=$(printf "%q\n" "$(pwd)")
+CMD="python $TF2/train.py -i $OUT/data --data processed \
 --model_file "$OUT"/models/model_"$NAME".ckpt --best_model_file "$OUT"/models/model_best_"$NAME".ckpt \
 --data processed --batchsize 30 --tied --beam_size 5 --epoch 30 \
 --layers 6 --multi_heads 8 --gpu "$GPUARG" --max_decode_len 70 \
