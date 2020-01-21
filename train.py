@@ -382,7 +382,7 @@ def main():
                                              max_sent=args.max_sent_eval)(logger)
 
                 # Threshold Global Steps to save the model
-                if not(global_steps % 100):
+                if not(global_steps % 2000):
                     print('saving')
                     is_best = score > best_score
                     best_score = max(score, best_score)
