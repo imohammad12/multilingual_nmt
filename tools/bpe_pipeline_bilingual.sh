@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 TF=$(printf "%q\n" "$(pwd)")
+TF=/content/gdrive/My\ Drive/project-nmt/multilingual_nmt
 export PATH=$TF/bin:$PATH
 
 L1=$1
@@ -8,7 +9,7 @@ L2=$2
 
 NAME="run_${L1}_${L2}"
 OUT="temp/$NAME"
-DATA="${TF}/data/${L1}_${L2}"
+DATA=${TF}/data/${L1}_${L2}
 TRAIN_SRC=$DATA/train.src
 TRAIN_TGT=$DATA/train.tgt
 TEST_SRC=$DATA/test.src
