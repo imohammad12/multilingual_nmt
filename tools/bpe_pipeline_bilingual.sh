@@ -41,7 +41,7 @@ echo "Applying BPE on target"
 #apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} <  "$TRAIN_TGT" > $OUT/data/train.tgt
 #apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} <  "$VALID_TGT" > $OUT/data/valid.tgt
 # We dont touch the test References, No BPE on them!
-cp "$TEST_TGT" "$OUT/data/test.tgt"
+#cp "$TEST_TGT" "$OUT/data/test.tgt"
 
 echo "Step 1b: Preprocess"
 python "${TF}/preprocess.py" -i "${OUT}/data" \
@@ -55,7 +55,7 @@ python "${TF}/preprocess.py" -i "${OUT}/data" \
       --max_seq_len 70
 
 echo "Step 2: Train"
-CMD="python "$TF"/train.py -i "$OUT"/data --data processed \
+CMD="python "$TF/train.py" -i "$OUT/data" --data processed \
 --model_file "$OUT"/models/model_"$NAME".ckpt --best_model_file "$OUT"/models/model_best_"$NAME".ckpt \
 --data processed --batchsize 30 --tied --beam_size 5 --epoch 30 \
 --layers 6 --multi_heads 8 --gpu "$GPUARG" --max_decode_len 70 \
@@ -73,7 +73,7 @@ cat "$OUT/test/test.out.bpe" | sed -E 's/(@@ )|(@@ ?$)//g' > "$OUT/test/test.out
 
 echo "Step 4a: Evaluate Test"
 perl "$TF/tools/multi-bleu.perl" "$OUT/data/test.tgt" < "$OUT/test/test.out" > "$OUT/test/test.tc.bleu"
-perl "$TF/tools/multi-bleu.perl -lc" "$OUT/data/test.tgt" < "$OUT/test/test.out" > "$OUT/test/test.lc.bleu"
+perl "$TF/tools/multi-bleu.perl" -lc "$OUT/data/test.tgt" < "$OUT/test/test.out" > "$OUT/test/test.lc.bleu"
 
 echo "Step 4b: Evaluate Dev"
 perl "$TF/tools/multi-bleu.perl" "$OUT/data/valid.tgt" < "$OUT/test/valid.out" > "$OUT/test/valid.tc.bleu"
