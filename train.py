@@ -340,7 +340,6 @@ def main():
                                        time_s, report_stats, args.report_every)
 
             valid_stats = utils.Statistics()
-            print('global steps:', global_steps)
             if global_steps % args.eval_steps == 0:
                 dev_iter = data.iterator.pool(dev_data,
                                               args.wbatchsize,
