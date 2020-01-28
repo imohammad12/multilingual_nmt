@@ -22,7 +22,7 @@ TEST_TGT=$OUT/data/test.tgt
 # apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} < ${TEST_SRC} > ${OUT}/data/test.src
 
 # Translate
-python translate.py -i $OUT/data --data processed --batchsize 28 --beam_size 5 \
+python3 translate.py -i $OUT/data --data processed --batchsize 28 --beam_size 5 \
 --best_model_file $OUT/models/model_best_$NAME.ckpt --src $OUT/data/test.src \
 --gpu $GPUARG --output $OUT/test/test.out --model Transformer --max_decode_len 70
 

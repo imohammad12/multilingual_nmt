@@ -27,13 +27,13 @@ This command will download, decompress, and will save the train, dev, and test s
 
 * One can use the script `ted_reader.py` to specify language pairs for both bilingual/multilingual translation tasks.
 - For bilingual/multilingual translation, just specify the source and target languages as
-```python
-python ted_reader.py -s ja en zh fr ro -t en zh fr ro ja
+```python3
+python3 ted_reader.py -s ja en zh fr ro -t en zh fr ro ja
 ``` 
 - For multilingual translation, by default the training data will consist of the cartesian product of all the source and target language pairs. 
 - If all possible combinations of the language pairs are not needed, then just use the option of `-ncp` 
-```python
-python ted_reader.py -s ja en zh fr ro -t en zh fr ro ja -ncp
+```python3
+python3 ted_reader.py -s ja en zh fr ro -t en zh fr ro ja -ncp
 ```
 - Above command will only create training data for the corresponding language pairs, i.e. [(ja, en), (en, zh), (zh, fr), (fr, ro), (fr, ja)]
 

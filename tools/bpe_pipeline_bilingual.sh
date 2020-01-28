@@ -45,7 +45,7 @@ apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} <  "$VALID_TGT" > $OUT/data/valid.tg
 cp "$TEST_TGT" "$OUT/data/test.tgt"
 
 echo "Step 1b: Preprocess"
-python "${TF}/preprocess.py" -i "${OUT}/data" \
+python3 "${TF}/preprocess.py" -i "${OUT}/data" \
       -s-train train.src \
       -t-train train.tgt \
       -s-valid valid.src \
@@ -57,7 +57,7 @@ python "${TF}/preprocess.py" -i "${OUT}/data" \
 
 echo "Step 2: Train"
 TF2=$(printf "%q\n" "$(pwd)")
-CMD="python $TF2/train.py -i $OUT/data --data processed \
+CMD="python3 $TF2/train.py -i $OUT/data --data processed \
 --model_file "$OUT"/models/model_"$NAME".ckpt --best_model_file "$OUT"/models/model_best_"$NAME".ckpt \
 --data processed --batchsize 30 --tied --beam_size 5 --epoch 4 \
 --layers 6 --multi_heads 8 --gpu "$GPUARG" --max_decode_len 70 \
