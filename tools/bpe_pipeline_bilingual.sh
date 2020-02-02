@@ -41,7 +41,7 @@ echo "Applying BPE on source"
 echo "Applying BPE on target"
 #apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} <  "$TRAIN_TGT" > $OUT/data/train.tgt
 #apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} <  "$VALID_TGT" > $OUT/data/valid.tgt
- We dont touch the test References, No BPE on them!
+# We dont touch the test References, No BPE on them!
 #cp "$TEST_TGT" "$OUT/data/test.tgt"
 
 echo "Step 1b: Preprocess"
@@ -59,8 +59,8 @@ echo "Step 2: Train"
 TF2=$(printf "%q\n" "$(pwd)")
 CMD="python3 $TF2/train.py -i $OUT/data --data processed \
 --model_file "$OUT"/models/model_"$NAME".ckpt --best_model_file "$OUT"/models/model_best_"$NAME".ckpt \
---data processed --batchsize 30 --tied --beam_size 5 --epoch 4 \
---layers 6 --multi_heads 8 --gpu $GPUARG --resume True --max_decode_len 70 \
+--data processed --batchsize 30 --resume --tied --beam_size 5 --epoch 4 \
+--layers 6 --multi_heads 8 --gpu $GPUARG --max_decode_len 70 \
 --dev_hyp "$OUT"/test/valid.out --test_hyp "$OUT"/test/test.out \
 --model Transformer --metric bleu --wbatchsize 3000"
 
