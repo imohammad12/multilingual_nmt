@@ -31,18 +31,18 @@ echo "Output dir = $OUT"
 echo "Step 1a: Preprocess inputs"
 
 echo "Learning BPE on source and target combined"
-cat "${TRAIN_SRC}" "${TRAIN_TGT}" | learn_bpe -s ${BPE_OPS} > $OUT/data/bpe-codes.${BPE_OPS}
+#cat "${TRAIN_SRC}" "${TRAIN_TGT}" | learn_bpe -s ${BPE_OPS} > $OUT/data/bpe-codes.${BPE_OPS}
 
 echo "Applying BPE on source"
-apply_bpe -c "$OUT/data/bpe-codes.${BPE_OPS}" < "$TRAIN_SRC" > "$OUT/data/train.src"
-apply_bpe -c "$OUT/data/bpe-codes.${BPE_OPS}" < "$VALID_SRC" > "$OUT/data/valid.src"
-apply_bpe -c "$OUT/data/bpe-codes.${BPE_OPS}" < "$TEST_SRC" > "$OUT/data/test.src"
+#apply_bpe -c "$OUT/data/bpe-codes.${BPE_OPS}" < "$TRAIN_SRC" > "$OUT/data/train.src"
+#apply_bpe -c "$OUT/data/bpe-codes.${BPE_OPS}" < "$VALID_SRC" > "$OUT/data/valid.src"
+#apply_bpe -c "$OUT/data/bpe-codes.${BPE_OPS}" < "$TEST_SRC" > "$OUT/data/test.src"
 
 echo "Applying BPE on target"
-apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} <  "$TRAIN_TGT" > $OUT/data/train.tgt
-apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} <  "$VALID_TGT" > $OUT/data/valid.tgt
+#apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} <  "$TRAIN_TGT" > $OUT/data/train.tgt
+#apply_bpe -c $OUT/data/bpe-codes.${BPE_OPS} <  "$VALID_TGT" > $OUT/data/valid.tgt
 # We dont touch the test References, No BPE on them!
-cp "$TEST_TGT" "$OUT/data/test.tgt"
+#cp "$TEST_TGT" "$OUT/data/test.tgt"
 
 echo "Step 1b: Preprocess"
 python3 "${TF}/preprocess.py" -i "${OUT}/data" \
