@@ -23,6 +23,7 @@ GPUARG=0
 
 echo "data path is = $TRAIN_SRC and this is target \n $TRAIN_TGT"
 echo "Output dir = $OUT"
+echo "Name : = $NAME"
 [ -d $OUT ] || mkdir -p $OUT
 [ -d $OUT/data ] || mkdir -p $OUT/data
 [ -d $OUT/models ] || mkdir $OUT/models
