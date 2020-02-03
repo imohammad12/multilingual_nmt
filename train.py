@@ -341,63 +341,64 @@ def main():
 
             valid_stats = utils.Statistics()
             if global_steps % args.eval_steps == 0:
-                dev_iter = data.iterator.pool(dev_data,
-                                              args.wbatchsize,
-                                              key=lambda x: (len(x[0]), len(x[1])),
-                                              batch_size_fn=batch_size_fn,
-                                              random_shuffler=data.iterator.
-                                              RandomShuffler())
+                with torch.no_grad():
+                    dev_iter = data.iterator.pool(dev_data,
+                                                  args.wbatchsize,
+                                                  key=lambda x: (len(x[0]), len(x[1])),
+                                                  batch_size_fn=batch_size_fn,
+                                                  random_shuffler=data.iterator.
+                                                  RandomShuffler())
 
-                for dev_batch in dev_iter:
-                    model.eval()
-                    in_arrays = utils.seq2seq_pad_concat_convert(dev_batch, -1)
-                    if len(args.multi_gpu) > 1:
-                        _, stat_tuple = zip(*dp(model, in_arrays, device_ids=args.multi_gpu))
-                        n_total = sum([obj.n_words.item() for obj in stat_tuple])
-                        n_correct = sum([obj.n_correct.item() for obj in stat_tuple])
-                        dev_loss = sum([obj.loss for obj in stat_tuple])
-                        stat = utils.Statistics(loss=dev_loss,
-                                                n_correct=n_correct,
-                                                n_words=n_total)
-                    else:
-                        _, stat = model(*in_arrays)
-                    valid_stats.update(stat)
+                    for dev_batch in dev_iter:
+                        model.eval()
+                        in_arrays = utils.seq2seq_pad_concat_convert(dev_batch, -1)
+                        if len(args.multi_gpu) > 1:
+                            _, stat_tuple = zip(*dp(model, in_arrays, device_ids=args.multi_gpu))
+                            n_total = sum([obj.n_words.item() for obj in stat_tuple])
+                            n_correct = sum([obj.n_correct.item() for obj in stat_tuple])
+                            dev_loss = sum([obj.loss for obj in stat_tuple])
+                            stat = utils.Statistics(loss=dev_loss,
+                                                    n_correct=n_correct,
+                                                    n_words=n_total)
+                        else:
+                            _, stat = model(*in_arrays)
+                        valid_stats.update(stat)
 
-                logger.info('Train perplexity: %g' % train_stats.ppl())
-                logger.info('Train accuracy: %g' % train_stats.accuracy())
+                    logger.info('Train perplexity: %g' % train_stats.ppl())
+                    logger.info('Train accuracy: %g' % train_stats.accuracy())
 
-                logger.info('Validation perplexity: %g' % valid_stats.ppl())
-                logger.info('Validation accuracy: %g' % valid_stats.accuracy())
+                    logger.info('Validation perplexity: %g' % valid_stats.ppl())
+                    logger.info('Validation accuracy: %g' % valid_stats.accuracy())
 
-                if args.metric == "accuracy":
-                    score = valid_stats.accuracy()
-                elif args.metric == "bleu":
-                    score, _ = CalculateBleu(model,
-                                             dev_data,
-                                             'Dev Bleu',
-                                             batch=args.batchsize // 4,
-                                             beam_size=args.beam_size,
-                                             alpha=args.alpha,
-                                             max_sent=args.max_sent_eval)(logger)
+                    if args.metric == "accuracy":
+                        score = valid_stats.accuracy()
+                    elif args.metric == "bleu":
+                        score, _ = CalculateBleu(model,
+                                                 dev_data,
+                                                 'Dev Bleu',
+                                                 batch=args.batchsize // 4,
+                                                 beam_size=args.beam_size,
+                                                 alpha=args.alpha,
+                                                 max_sent=args.max_sent_eval)(logger)
 
-                # Threshold Global Steps to save the model
-                if not(global_steps % 2000):
-                    print('saving')
-                    is_best = score > best_score
-                    best_score = max(score, best_score)
-                    save_checkpoint({
-                        'epoch': epoch + 1,
-                        'state_dict': model.state_dict(),
-                        'state_dict_ema': ema.shadow_variable_dict,
-                        'best_score': best_score,
-                        'optimizer': optimizer.state_dict(),
-                        'opts': args,
-                    },  is_best,
-                        args.model_file,
-                        args.best_model_file)
+                    # Threshold Global Steps to save the model
+                    if not(global_steps % 2000):
+                        print('saving')
+                        is_best = score > best_score
+                        best_score = max(score, best_score)
+                        save_checkpoint({
+                            'epoch': epoch + 1,
+                            'state_dict': model.state_dict(),
+                            'state_dict_ema': ema.shadow_variable_dict,
+                            'best_score': best_score,
+                            'optimizer': optimizer.state_dict(),
+                            'opts': args,
+                        },  is_best,
+                            args.model_file,
+                            args.best_model_file)
 
-                if args.optimizer == 'Adam' or args.optimizer == 'Yogi':
-                    scheduler.step(score)
+                    if args.optimizer == 'Adam' or args.optimizer == 'Yogi':
+                        scheduler.step(score)
 
         if epoch == -1 and args.grad_norm_for_yogi and args.optimizer == 'Yogi':
             optimizer.v_init = l2_norm / (num_steps + 1)
