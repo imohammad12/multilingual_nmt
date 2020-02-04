@@ -77,11 +77,11 @@ cat $OUT/test/valid.out.bpe | sed -E 's/(@@ )|(@@ ?$)//g' > "$OUT/test/valid.out
 cat $OUT/test/test.out.bpe | sed -E 's/(@@ )|(@@ ?$)//g' > "$OUT/test/test.out"
 #
 #echo "Step 4a: Evaluate Test"
-#perl "$TF/tools/multi-bleu.perl" "$OUT/data/test.tgt" < "$OUT/test/test.out" > "$OUT/test/test.tc.bleu"
-#perl "$TF/tools/multi-bleu.perl" -lc "$OUT/data/test.tgt" < "$OUT/test/test.out" > "$OUT/test/test.lc.bleu"
+perl "$TF/tools/multi-bleu.perl" "$OUT/data/test.tgt" < "$OUT/test/test.out" > "$OUT/test/test.tc.bleu"
+perl "$TF/tools/multi-bleu.perl" -lc "$OUT/data/test.tgt" < "$OUT/test/test.out" > "$OUT/test/test.lc.bleu"
 #
 #echo "Step 4b: Evaluate Dev"
-#perl "$TF/tools/multi-bleu.perl" "$OUT/data/valid.tgt" < "$OUT/test/valid.out" > "$OUT/test/valid.tc.bleu"
-#perl "$TF/tools/multi-bleu.perl" -lc "$OUT/data/valid.tgt" < "$OUT/test/valid.out" > "$OUT/test/valid.lc.bleu"
+perl "$TF/tools/multi-bleu.perl" "$OUT/data/valid.tgt" < "$OUT/test/valid.out" > "$OUT/test/valid.tc.bleu"
+perl "$TF/tools/multi-bleu.perl" -lc "$OUT/data/valid.tgt" < "$OUT/test/valid.out" > "$OUT/test/valid.lc.bleu"
 
 t2t-bleu --translation="$OUT/test/test.out" --reference="$OUT/data/test.tgt" > "$OUT/test/test.t2t.bleu"
