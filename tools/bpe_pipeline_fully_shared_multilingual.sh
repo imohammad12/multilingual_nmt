@@ -63,16 +63,17 @@ echo "Step 1b: Preprocess"
 #      --max_seq_len 70
 
 
-echo "Step 2: Train"
-CMD="python3 $TF/train.py -i $OUT/data --data processed \
---model_file $OUT/models/model_$NAME.ckpt --best_model_file $OUT/models/model_best_$NAME.ckpt \
---data processed --batchsize 30 --resume --tied --beam_size 5 --epoch 6 \
---layers 6 --multi_heads 8 --gpu $GPUARG \
---dev_hyp $OUT/test/valid.out --test_hyp $OUT/test/test.out \
---model Transformer --metric bleu --wbatchsize 3000 --max_decode_len 70 \
---lang1 __${L2}__ --lang2 __${L3}__"
+#echo "Step 2: Train"
+#CMD="python3 $TF/train.py -i $OUT/data --data processed \
+#--model_file $OUT/models/model_$NAME.ckpt --best_model_file $OUT/models/model_best_$NAME.ckpt \
+#--data processed --batchsize 30 --resume --tied --beam_size 5 --epoch 6 \
+#--layers 6 --multi_heads 8 --gpu $GPUARG \
+#--dev_hyp $OUT/test/valid.out --test_hyp $OUT/test/test.out \
+#--model Transformer --metric bleu --wbatchsize 3000 --max_decode_len 70 \
+#--lang1 __${L2}__ --lang2 __${L3}__"
+#
+#echo "Training command :: $CMD"
+#eval "$CMD"
 
-echo "Training command :: $CMD"
-eval "$CMD"
-
+echo "testing"
 bash tools/bpe_translate_O2M.sh ${L1} ${L2} ${L3} Transformer ${prefix}
