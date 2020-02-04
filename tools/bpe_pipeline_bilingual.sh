@@ -71,10 +71,10 @@ CMD="python3 $TF2/train.py -i $OUT/data --data processed \
 #eval "$CMD"
 #
 #echo "BPE decoding/detokenising target to match with references"
-#mv $OUT/test/test.out{,.bpe}
-#mv $OUT/test/valid.out{,.bpe}
-#cat $OUT/test/valid.out.bpe | sed -E 's/(@@ )|(@@ ?$)//g' > "$OUT/test/valid.out"
-#cat $OUT/test/test.out.bpe | sed -E 's/(@@ )|(@@ ?$)//g' > "$OUT/test/test.out"
+mv $OUT/test/test.out{,.bpe}
+mv $OUT/test/valid.out{,.bpe}
+cat $OUT/test/valid.out.bpe | sed -E 's/(@@ )|(@@ ?$)//g' > "$OUT/test/valid.out"
+cat $OUT/test/test.out.bpe | sed -E 's/(@@ )|(@@ ?$)//g' > "$OUT/test/test.out"
 #
 #echo "Step 4a: Evaluate Test"
 #perl "$TF/tools/multi-bleu.perl" "$OUT/data/test.tgt" < "$OUT/test/test.out" > "$OUT/test/test.tc.bleu"
