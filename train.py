@@ -121,7 +121,8 @@ def report_func(epoch, batch, num_batches, start_time, report_stats,
 
 
 # Have to unwrap DDP & FP16, if using.
-def unwrap(module, model_name='Transformer'):
+# def unwrap(module, model_name='Transformer'):
+def unwrap(module, model_name='MultiTaskNMT'):
     if isinstance(module, eval(model_name)):
         return module
     return unwrap(module.module, model_name)
