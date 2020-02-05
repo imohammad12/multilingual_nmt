@@ -131,7 +131,7 @@ def unwrap(module, model_name='MultiTaskNMT'):
 class CalculateBleu(object):
     def __init__(self, model, test_data, key, batch=50, max_decode_len=50,
                  beam_size=1, alpha=0.6, max_sent=None):
-        self.model = unwrap(model)
+        # self.model = unwrap(model)
         self.test_data = test_data
         self.key = key
         self.batch = batch
