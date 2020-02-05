@@ -121,8 +121,8 @@ def report_func(epoch, batch, num_batches, start_time, report_stats,
 
 
 # Have to unwrap DDP & FP16, if using.
-# def unwrap(module, model_name='Transformer'):
-def unwrap(module, model_name='MultiTaskNMT'):
+def unwrap(module, model_name='Transformer'):
+# def unwrap(module, model_name='MultiTaskNMT'):
     if isinstance(module, eval(model_name)):
         return module
     return unwrap(module.module, model_name)
@@ -131,7 +131,7 @@ def unwrap(module, model_name='MultiTaskNMT'):
 class CalculateBleu(object):
     def __init__(self, model, test_data, key, batch=50, max_decode_len=50,
                  beam_size=1, alpha=0.6, max_sent=None):
-        # self.model = unwrap(model)
+        self.model = unwrap(model)
         self.test_data = test_data
         self.key = key
         self.batch = batch
