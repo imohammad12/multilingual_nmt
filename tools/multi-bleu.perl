@@ -145,7 +145,7 @@ for(my $n=1;$n<=4;$n++) {
   }
 }
 
-if ($length_reference==0){
+if ($length_reference == 0){
   printf "BLEU = 0, 0/0/0/0 (BP=0, ratio=0, hyp_len=0, ref_len=0)\n";
   exit(1);
 }
