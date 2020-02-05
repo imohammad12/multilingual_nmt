@@ -68,7 +68,7 @@ CMD="python3 $TF2/train.py -i $OUT/data --data processed \
 # --gpu "$GPUARG"
 
 echo "Training command :: $CMD"
-eval "$CMD"
+#eval "$CMD"
 #
 echo "BPE decoding/detokenising target to match with references"
 mv $OUT/test/test.out{,.bpe}
