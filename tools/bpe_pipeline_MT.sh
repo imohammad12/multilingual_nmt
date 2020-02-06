@@ -73,7 +73,7 @@ echo "Step 1b: Preprocess"
 echo "Step 2: Train"
 CMD="python3 $TF/train.py -i $OUT/data --data processed \
 --model_file $OUT/models/model_$NAME.ckpt --best_model_file $OUT/models/model_best_$NAME.ckpt \
---data processed --batchsize 30 --tied --beam_size 5 --epoch 10 \
+--data processed --batchsize 30 --resume --tied --beam_size 5 --epoch 10 \
 --layers 6 --multi_heads 8 --gpu $GPUARG \
 --dev_hyp $OUT/test/valid.out --test_hyp $OUT/test/test.out \
 --model MultiTaskNMT --metric bleu --wbatchsize 2000 --max_decode_len 70 \
